@@ -18,7 +18,6 @@ class Scraper:
 
         except Exception as e:
             print(e)
-
             return None
 
     def get_results(self):
@@ -50,7 +49,8 @@ class Scraper:
             product.review = self.get_review(li)
             product.updated = time
 
-            products.append(product)
+            if not product.is_none():
+                products.append(product)
 
         return products
 

@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 class Product(db.Model):
     keyword = db.Column(db.String(100), primary_key=True)
-    id = db.Column(db.String(50), primary_key=True, unique=True)
+    id = db.Column(db.String(50), primary_key=True)
     title = db.Column(db.String(1000), nullable=True)
     image_url = db.Column(db.String(1000), nullable=True)
     price = db.Column(db.String(25), nullable=True)
@@ -21,3 +21,6 @@ class Product(db.Model):
             "price": self.price,
             "review": self.review,
         }
+
+    def is_none(self):
+        return True if self.title is None or self.price is None or self.review is None else False

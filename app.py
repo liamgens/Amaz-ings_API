@@ -19,10 +19,10 @@ def index(keyword):
 
     products = Product.query.filter_by(keyword=keyword).all()
 
-    if len(products) < 1:
+    if len(products) < 1: # If the products DNE
         products = add_products(scraper)
 
-    if (datetime.utcnow() - products[0].updated) > timedelta(1):
+    elif (datetime.utcnow() - products[0].updated) > timedelta(1): # If the products are over 24 hours old
         products = add_products(scraper)
 
     json = {keyword: [p.serialize() for p in products]}
