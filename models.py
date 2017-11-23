@@ -24,3 +24,9 @@ class Product(db.Model):
 
     def is_none(self):
         return True if self.keyword is None or self.id is None or self.title is None or self.price is None or self.review is None else False
+
+    def __eq__(self, other):
+        return (self.keyword, self.id) == (other.keyword, other.id)
+
+    def __hash__(self):
+        return (self.keyword, self.id).__hash__()

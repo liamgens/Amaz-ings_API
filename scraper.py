@@ -6,15 +6,17 @@ from datetime import datetime
 class Scraper:
     def __init__(self, search_term):
         self.search_term = search_term
-        self.page = self.fetch_webpage()
-        self.results = self.get_results()
+        self.page = None
+        self.fetch_webpage()
+        self.results = None
+        self.get_results()
 
-    def fetch_webpage(self):
+    def fetch_webpage(self, page=1):
         headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
-        url = "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + self.search_term
+        url = "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&page=" + str(page) + "&field-keywords=" + self.search_term
 
         try:
-            return requests.get(url,headers=headers)
+            self.page = requests.get(url,headers=headers)
 
         except Exception as e:
             print(e)
@@ -32,7 +34,7 @@ class Scraper:
                 if li.get('id'):
                     results.append(li)
 
-        return results
+        self.results = results
 
     def get_products(self):
         products = []
@@ -52,7 +54,7 @@ class Scraper:
             if not product.is_none():
                 products.append(product)
 
-        return products
+        return list(set(products)) # remove any duplicate products
 
     def get_id(self, li):
         return li['data-asin']
