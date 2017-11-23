@@ -23,4 +23,4 @@ class Product(db.Model):
         }
 
     def is_none(self):
-        return True if self.title is None or self.price is None or self.review is None else False
+        return True if self.keyword is None or self.id is None or self.title is None or self.price is None or self.review is None else False
