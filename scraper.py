@@ -9,9 +9,6 @@ class Scraper:
         self.results = self.get_results()
 
     def fetch_webpage(self):
-        """Loads results from the search_term.
-        Returns the recieved request
-        """
         headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
         url = "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=" + self.search_term
 
@@ -71,7 +68,7 @@ class Scraper:
             whole = price[0].find_all('span')[0].text
             fraction = price[0].find_all('sup')[1].text
             price = "$%s.%s" % (whole, fraction)
-            
+
             return price
 
         return None
