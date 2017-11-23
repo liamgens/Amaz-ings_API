@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from models import Product
 
 class Scraper:
     def __init__(self, search_term):
@@ -39,9 +40,15 @@ class Scraper:
     def get_products(self):
         products = []
 
-        for i in range(0, len(self.results)):
-            li = self.results[i]
-            product = (self.get_id(li), self.get_title(li), self.get_image(li), self.get_price(li), self.get_review(li))
+        for li in self.results:
+
+            product = Product()
+            product.id = self.get_id(li)
+            product.title = self.get_title(li)
+            product.image_url = self.get_image(li)
+            product.price = self.get_price(li)
+            product.review = self.get_review(li)
+
             products.append(product)
 
         return products
@@ -59,11 +66,14 @@ class Scraper:
 
     def get_price(self, li):
         price = li.find_all('span', {"class": "sx-price sx-price-large"})
+
         if len(price) > 0:
             whole = price[0].find_all('span')[0].text
             fraction = price[0].find_all('sup')[1].text
             price = "$%s.%s" % (whole, fraction)
+            
             return price
+
         return None
 
     def get_review(self, li):
