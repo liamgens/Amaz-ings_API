@@ -2,12 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from scraper import Scraper
 from models import Product, db
-import os
+from datetime import datetime, timedelta
+import config
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI", "sqlite:///../database.sqlite3")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 
 with app.app_context():
     db.init_app(app)
@@ -16,15 +16,27 @@ with app.app_context():
 @app.route('/get-products/<keyword>')
 def index(keyword):
     scraper = Scraper(keyword)
-    products = scraper.get_products()
 
-    json = {"products": [p.serialize() for p in products]}
+    products = Product.query.filter_by(keyword=keyword).all()
+
+    if len(products) < 1:
+        products = add_products(scraper)
+
+    if (datetime.utcnow() - products[0].updated) > timedelta(1):
+        products = add_products(scraper)
+
+    json = {keyword: [p.serialize() for p in products]}
+
+    return str(json)
+
+def add_products(scraper):
+    products = scraper.get_products()
 
     for p in products:
         db.session.add(p)
         db.session.commit()
 
-    return str(json)
+    return products
 
 
 if __name__ == "__main__":

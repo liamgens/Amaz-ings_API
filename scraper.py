@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from models import Product
+from datetime import datetime
 
 class Scraper:
     def __init__(self, search_term):
@@ -36,15 +37,18 @@ class Scraper:
 
     def get_products(self):
         products = []
+        time = datetime.utcnow()
 
         for li in self.results:
 
             product = Product()
+            product.keyword = self.search_term
             product.id = self.get_id(li)
             product.title = self.get_title(li)
             product.image_url = self.get_image(li)
             product.price = self.get_price(li)
             product.review = self.get_review(li)
+            product.updated = time
 
             products.append(product)
 
