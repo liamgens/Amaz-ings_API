@@ -47,7 +47,6 @@ def index(keyword):
 @app.route('/get-products')
 def get_products():
     products = Product.query.all()
-    print(products)
     json = {"products": [p.serialize() for p in products]}
 
     return jsonify(json)
