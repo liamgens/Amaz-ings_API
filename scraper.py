@@ -20,6 +20,7 @@ class Scraper:
 
         try:
             self.page = requests.get(url,headers=headers)
+            print(self.page)
 
         except Exception as e:
             print(e)
@@ -80,8 +81,8 @@ class Scraper:
     def get_image(self, li):
         """Returns the image_url of the product.
         """
-        image = li.find_all('img', {"class": "s-access-image cfMarker"})
-        return image[0].get('src') if len(image) > 0 else None
+        image = str(li.find_all('img', {"class": "s-access-image cfMarker"})).split(',')[-1][1:-24]
+        return image if image else None
 
     def get_price(self, li):
         """Returns the price of the product.

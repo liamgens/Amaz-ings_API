@@ -22,7 +22,7 @@ def home():
     return "home page for testing"
 
 
-@app.route('/get-products/<keyword>')
+@app.route('/get-products/<keyword>/')
 def index(keyword):
     scraper = Scraper(keyword)
 
