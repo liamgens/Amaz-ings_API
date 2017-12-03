@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
 from time import sleep
-from models import Product
 from collections import OrderedDict
 
 def get_page_content(url):
@@ -15,8 +14,6 @@ def get_page_content(url):
         results = []
 
         driver.execute_script("document.getElementById('nav-tools').remove()")
-
-
 
         results.extend(driver.find_elements_by_class_name('s-item-container'))
 
@@ -39,8 +36,6 @@ def get_page_content(url):
             results = list(OrderedDict.fromkeys(results))
             n = len(results)
             i+= 1
-
-
 
         driver.quit()
 
@@ -67,6 +62,3 @@ def get_products(page_content):
     return images
 
 content = get_page_content("https://www.amazon.com/stream")
-# for i in content:
-#     print(i, '\n')
-# print (len(content))
