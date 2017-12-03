@@ -42,6 +42,10 @@ class Scraper:
 
         self.results = results
 
+        # def get_new_products(self):
+        #     # TODO add a method to scrape amazon's homepage and fetch the
+        #     # newest products rather than by keyword
+
     def get_products(self):
         """Creates a list of products.
         Goes through every product <li> and fetches it's correct information

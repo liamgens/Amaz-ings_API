@@ -21,6 +21,10 @@ with app.app_context():
 def home():
     return "home page for testing"
 
+# @app.route('/new-products')
+# def new_products():
+#     # TODO Fetch new products from their homepage
+
 
 @app.route('/get-products/<keyword>/')
 def index(keyword):
