@@ -1,2 +1,2 @@
-# tinder-for-amazon
-The API for the amazon tinder application, the name is still in the works.
+# Amaz-ings
+The API for the Amaz-ings, a Tinder-like application for browsing through Amazon's new and exciting products.
